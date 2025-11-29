@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- ATUALIZADO: Removido o card de Cadastro -->
+  <div class="form-container" id="formContainer" style="max-width: 450px;">
+
+    <!-- Card de Login -->
+    <div class="form-card" id="loginCard">
+      <h2>Login</h2>
+      <div id="resultadoLogin" class="message"></div>
+      <form id="loginForm">
+        <!-- NOVO: Campo CNPJ Ambiente -->
+        <div class="form-group">
+          <label for="cnpjAmbiente">CNPJ Ambiente</label>
+          <input type="text" id="cnpjAmbiente" placeholder="00.000.000/0001-00" required>
+        </div>
+        <div class="form-group">
+          <label for="usuario">Usuário</label>
+          <input type="text" id="usuario" placeholder="Seu usuário" required>
+        </div>
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" placeholder="Sua senha" required>
+        </div>
+
+        <button type="submit" class="primary">Entrar</button>
+      </form>
+      <!-- REMOVIDO: Link para criar conta -->
+    </div>
+
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("loginForm");
+    const resultadoLogin = document.getElementById("resultadoLogin");
+
+    // --- Verifica se já está logado ---
+    document.addEventListener("DOMContentLoaded", () => {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        window.location.href = "home.html";
+      }
+
+      // Máscara CNPJ (simples)
+      const cnpjInput = document.getElementById("cnpjAmbiente");
+      cnpjInput.addEventListener('input', (e) => {
+        let v = e.target.value.replace(/\D/g, '');
+        v = v.replace(/^(\d{2})(\d)/, '$1.$2');
+        v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+        v = v.replace(/\.(\d{3})(\d)/, '.$1/$2');
+        v = v.replace(/(\d{4})(\d)/, '$1-$2');
+        e.target.value = v.substring(0, 18); // Limita 00.000.000/0001-00
+      });
+    });
+
+    // Login
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const usuario = document.getElementById("usuario").value;
+      const senha = document.getElementById("senha").value;
+      const cnpjAmbiente = document.getElementById("cnpjAmbiente").value.replace(/\D/g, ''); // Envia só números
+
+      resultadoLogin.textContent = "";
+      resultadoLogin.className = "message";
+
+      try {
+        const res = await fetch("http://localhost:3000/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          // ATUALIZADO: Envia o CNPJ
+          body: JSON.stringify({ usuario, senha, cnpjAmbiente })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.sucesso) {
+          throw new Error(data.mensagem || "Erro ao fazer login.");
+        }
+
+        resultadoLogin.textContent = data.mensagem;
+        resultadoLogin.className = `message success`;
+
+        if (data.token) {
+          localStorage.setItem('authToken', data.token);
+          setTimeout(() => {
+            window.location.href = "home.html";
+          }, 1000);
+        } else {
+          resultadoLogin.className = "message error";
+        }
+
+      } catch (err) {
+        resultadoLogin.textContent = err.message || "Erro de conexão com o servidor.";
+        resultadoLogin.className = "message error";
+      }
+    });
+  </script>
+</body>
+
+</html>

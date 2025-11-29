@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns"></script>
+</head>
+
+<body>
+    <div class="main-container">
+        <aside class="sidebar">
+            <h2 class="sidebar-title">Menu</h2>
+            <div class="ambiente-info">
+                <span>AMBIENTE</span>
+                <h4 id="nome-ambiente-sidebar">Carregando...</h4>
+            </div>
+            <nav id="nav-desktop">
+                <a href="#dashboard" class="nav-link active">
+                    <i class="ph ph-chart-bar"></i>
+                    <span>Visão Geral</span>
+                </a>
+                <a href="#dashboards" class="nav-link">
+                    <i class="ph ph-presentation-chart"></i>
+                    <span>Dashboards</span>
+                </a>
+                <div class="nav-group">
+                    <a class="nav-group-header">
+                        <div class="nav-group-title">
+                            <i class="ph ph-archive-box"></i>
+                            <span>Cadastros</span>
+                        </div>
+                        <i class="ph ph-caret-right nav-arrow"></i>
+                    </a>
+                    <div class="nav-submenu">
+                        <a href="#clientes" class="nav-link-sub">Clientes</a>
+                        <a href="#produtos" class="nav-link-sub">Produtos</a>
+                    </div>
+                </div>
+                <a href="#pedidos" class="nav-link">
+                    <i class="ph ph-shopping-cart-simple"></i>
+                    <span>Pedidos</span>
+                </a>
+                <div class="nav-group">
+                    <a class="nav-group-header">
+                        <div class="nav-group-title">
+                            <i class="ph ph-shield-check"></i>
+                            <span>Administração</span>
+                        </div>
+                        <i class="ph ph-caret-right nav-arrow"></i>
+                    </a>
+                    <div class="nav-submenu">
+                        <a href="#ambientes" class="nav-link-sub">Ambientes</a>
+                        <a href="#usuarios" class="nav-link-sub">Usuários</a>
+                    </div>
+                </div>
+                <a href="#config" class="nav-link">
+                    <i class="ph ph-gear"></i>
+                    <span>Configurações</span>
+                </a>
+                <a href="#" id="btnSair" class="nav-link nav-link-sair">
+                    <i class="ph ph-sign-out"></i>
+                    <span>Sair</span>
+                </a>
+            </nav>
+            <div class="nav-links-mobile" id="nav-mobile">
+                <a href="#dashboard" class="nav-link active">
+                    <i class="ph ph-chart-bar"></i>
+                    <span>Visão Geral</span>
+                </a>
+                <a href="#dashboards" class="nav-link">
+                    <i class="ph ph-presentation-chart"></i>
+                    <span>Gráficos</span>
+                </a>
+                <a href="#clientes" class="nav-link">
+                    <i class="ph ph-users"></i>
+                    <span>Clientes</span>
+                </a>
+                <a href="#produtos" class="nav-link">
+                    <i class="ph ph-package"></i>
+                    <span>Produtos</span>
+                </a>
+                <a href="#pedidos" class="nav-link">
+                    <i class="ph ph-shopping-cart-simple"></i>
+                    <span>Pedidos</span>
+                </a>
+                <a href="#ambientes" class="nav-link">
+                    <i class="ph ph-buildings"></i>
+                    <span>Ambientes</span>
+                </a>
+                <a href="#usuarios" class="nav-link">
+                    <i class="ph ph-user-list"></i>
+                    <span>Usuários</span>
+                </a>
+                <a href="#" id="btnSairMobile" class="nav-link nav-link-sair">
+                    <i class="ph ph-sign-out"></i>
+                    <span>Sair</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="content">
+
+            <section id="dashboard-content" class="content-section active">
+                <div class="content-header">
+                    <h1 id="bem-vindo-usuario">Carregando...</h1>
+                </div>
+                <h2 style="margin-top: 10px; margin-bottom: 15px; font-size: 1.2rem; color: #555;">KPIs de Hoje
+                </h2>
+                <div class="dashboard-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="--icon-bg: #eaf8f2; --icon-color: var(--cor-sucesso);">
+                            <i class="ph ph-money"></i>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-title">Faturamento Hoje</span>
+                            <span class="kpi-value" id="kpi-faturamento-hoje">R$ 0,00</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="--icon-bg: #fef0e6; --icon-color: var(--cor-primaria);">
+                            <i class="ph ph-shopping-cart-simple"></i>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-title">Pedidos Hoje</span>
+                            <span class="kpi-value" id="kpi-pedidos-hoje">0</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="--icon-bg: #fdf8e6; --icon-color: var(--cor-aviso);">
+                            <i class="ph ph-chart-line-up"></i>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-title">Ticket Médio Hoje</span>
+                            <span class="kpi-value" id="kpi-ticket-medio-hoje">R$ 0,00</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="--icon-bg: #eaf2fa; --icon-color: var(--cor-info);">
+                            <i class="ph ph-user-plus"></i>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-title">Novos Clientes Hoje</span>
+                            <span class="kpi-value" id="kpi-novos-clientes-hoje">0</span>
+                        </div>
+                    </div>
+                </div>
+                <h2 style="margin-top: 30px; margin-bottom: 15px; font-size: 1.2rem; color: #555;">Totais do Ambiente
+                </h2>
+                <div class="dashboard-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="--icon-bg: #eee; --icon-color: #555;">
+                            <i class="ph ph-users-three"></i>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-title">Total de Clientes</span>
+                            <span class="kpi-value" id="kpi-total-clientes">0</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon" style="--icon-bg: #eee; --icon-color: #555;">
+                            <i class="ph ph-package"></i>
+                        </div>
+                        <div class="kpi-info">
+                            <span class="kpi-title">Total de Produtos</span>
+                            <span class="kpi-value" id="kpi-total-produtos">0</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="dashboards-content" class="content-section">
+                <div class="content-header">
+                    <h1>Dashboards Analíticos</h1>
+                </div>
+
+                <div class="filter-container" id="dashboard-filtros">
+                    <div class="form-group" style="flex-grow: 1;">
+                        <label for="filtro-data-inicio" style="font-weight: normal; font-size: 0.9rem;">Data
+                            Início</label>
+                        <input type="date" id="filtro-data-inicio">
+                    </div>
+                    <div class="form-group" style="flex-grow: 1;">
+                        <label for="filtro-data-fim" style="font-weight: normal; font-size: 0.9rem;">Data Fim</label>
+                        <input type="date" id="filtro-data-fim">
+                    </div>
+                    <button class="primary" id="btn-filtrar-dashboards" style="align-self: flex-end; margin-top: 0;">
+                        <i class="ph ph-funnel"></i>
+                        Filtrar
+                    </button>
+                </div>
+                <div id="dashboards-resultado" class="message" style="display: none;"></div>
+
+                <div class="dashboard-charts-grid">
+
+                    <div class="chart-container full-width">
+                        <h3>Análise Financeira (R$)</h3>
+                        <canvas id="chart-faturamento"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Pedidos por Status</h3>
+                        <canvas id="chart-pedidos-status"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Top 5 Produtos (Qtd)</h3>
+                        <canvas id="chart-top-produtos"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Formas de Pagamento (Qtd)</h3>
+                        <canvas id="chart-forma-pagamento"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Tipos de Pedido (Qtd)</h3>
+                        <canvas id="chart-tipo-pedido"></canvas>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Faturamento por Ramo (R$)</h3>
+                        <canvas id="chart-faturamento-ramo"></canvas>
+                    </div>
+
+                    <div class="chart-container full-width">
+                        <h3>Aquisição de Clientes no Período</h3>
+                        <canvas id="chart-novos-clientes"></canvas>
+                    </div>
+
+                </div>
+            </section>
+
+
+            <section id="produtos-content" class="content-section">
+                <div class="content-header">
+                    <h1>Gestão de Produtos</h1>
+                    <div class="filter-container">
+                        <input type="text" id="filtro-produto-nome" placeholder="Filtrar por nome...">
+                        <button class="secondary" id="btn-filtrar-produto">
+                            <i class="ph ph-magnifying-glass"></i>
+                        </button>
+                    </div>
+                    <button class="primary" id="btnNovoProduto">
+                        <i class="ph ph-plus"></i>
+                        Adicionar Produto
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Preço</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="produtos-tabela-corpo"></tbody>
+                    </table>
+                    <p id="sem-produtos" class="message info" style="display: none;">Nenhum produto cadastrado.</p>
+                </div>
+            </section>
+
+            <section id="clientes-content" class="content-section">
+                <div class="content-header">
+                    <h1>Gestão de Clientes</h1>
+                    <div class="filter-container">
+                        <input type="text" id="filtro-cliente-geral"
+                            placeholder="Filtrar por Nome, Documento ou Telefone...">
+                        <button class="secondary" id="btn-filtrar-cliente">
+                            <i class="ph ph-magnifying-glass"></i>
+                        </button>
+                    </div>
+                    <button class="primary" id="btnNovoCliente">
+                        <i class="ph ph-plus"></i>
+                        Adicionar Cliente
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Telefone</th>
+                                <th>Email</th>
+                                <th>Documento</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientes-tabela-corpo"></tbody>
+                    </table>
+                    <p id="sem-clientes" class="message info" style="display: none;">Nenhum cliente cadastrado.</p>
+                </div>
+            </section>
+
+            <section id="pedidos-content" class="content-section">
+                <div class="content-header">
+                    <h1>Gestão de Pedidos</h1>
+                    <div class="filter-container">
+                        <input type="text" id="filtro-pedido-cliente" placeholder="Filtrar por cliente...">
+                        <select id="filtro-pedido-status">
+                            <option value="">Todos os Status</option>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Em Preparo">Em Preparo</option>
+                            <option value="Concluído">Concluído</option>
+                            <option value="Cancelado">Cancelado</option>
+                        </select>
+                        <button class="secondary" id="btn-filtrar-pedido">
+                            <i class="ph ph-magnifying-glass"></i>
+                        </button>
+                    </div>
+                    <button class="primary" id="btnNovoPedido">
+                        <i class="ph ph-plus"></i>
+                        Adicionar Pedido
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Pedido</th>
+                                <th>Cliente</th>
+                                <th>Responsável</th>
+                                <th>Data</th>
+                                <th>Valor Total</th>
+                                <th>Status</th>
+                                <th>Tipo</th>
+                                <th>Pgto.</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pedidos-tabela-corpo"></tbody>
+                    </table>
+                    <p id="sem-pedidos" class="message info" style="display: none;">Nenhum pedido cadastrado.</p>
+                </div>
+            </section>
+
+            <section id="ambientes-content" class="content-section">
+                <div class="content-header">
+                    <h1>Gestão de Ambientes</h1>
+                    <div class="filter-container">
+                        <input type="text" id="filtro-ambiente-geral" placeholder="Filtrar por Nome ou CNPJ...">
+                        <button class="secondary" id="btn-filtrar-ambiente">
+                            <i class="ph ph-magnifying-glass"></i>
+                        </button>
+                    </div>
+                    <button class="primary" id="btnNovoAmbiente">
+                        <i class="ph ph-plus"></i>
+                        Adicionar Ambiente
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>CNPJ</th>
+                                <th>Nome Fantasia</th>
+                                <th>Razão Social</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ambientes-tabela-corpo"></tbody>
+                    </table>
+                    <p id="sem-ambientes" class="message info" style="display: none;">Nenhum ambiente cadastrado.</p>
+                </div>
+            </section>
+
+            <section id="usuarios-content" class="content-section">
+                <div class="content-header">
+                    <h1>Gestão de Usuários</h1>
+                    <div class="filter-container">
+                        <input type="text" id="filtro-usuario-geral"
+                            placeholder="Filtrar por Nome, Usuário ou Ambiente...">
+                        <button class="secondary" id="btn-filtrar-usuario">
+                            <i class="ph ph-magnifying-glass"></i>
+                        </button>
+                    </div>
+                    <button class="primary" id="btnNovoUsuario">
+                        <i class="ph ph-plus"></i>
+                        Adicionar Usuário
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuário (Login)</th>
+                                <th>Nome Completo</th>
+                                <th>Ambiente Criação</th>
+                                <th>Admin</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuarios-tabela-corpo"></tbody>
+                    </table>
+                    <p id="sem-usuarios" class="message info" style="display: none;">Nenhum usuário cadastrado neste
+                        ambiente.</p>
+                </div>
+            </section>
+
+            <section id="config-content" class="content-section">
+                <h1>Configurações</h1>
+            </section>
+        </main>
+    </div>
+
+    <div id="produto-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <form id="produto-form">
+                <h3 id="modal-titulo">Adicionar Produto</h3>
+                <input type="hidden" id="produto-id">
+                <div class="form-group"> <label for="produto-nome">Nome</label> <input type="text" id="produto-nome"
+                        required> </div>
+                <div class="form-group"> <label for="produto-descricao">Descrição</label> <textarea
+                        id="produto-descricao" rows="3"></textarea> </div>
+                <div class="form-group"> <label for="produto-preco">Preço (R$)</label> <input type="number"
+                        id="produto-preco" step="0.01" min="0" required> </div>
+                <div id="modal-resultado" class="message"></div>
+                <div class="modal-actions">
+                    <button type="button" class="secondary" id="btnCancelarModal">Cancelar</button>
+                    <button type="submit" class="primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="confirm-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content small">
+            <h4>Confirmar Exclusão</h4>
+            <p>Tem certeza que deseja excluir este produto?</p>
+            <div id="confirm-resultado" class="message"></div>
+            <div class="modal-actions">
+                <button type="button" class="secondary" id="btnCancelarExclusao">Cancelar</button>
+                <button type="button" class="danger" id="btnConfirmarExclusao">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cliente-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <form id="cliente-form">
+                <h3 id="cliente-modal-titulo">Adicionar Cliente</h3>
+                <input type="hidden" id="cliente-id">
+                <div class="form-group"> <label for="cliente-nome">Nome (*)</label> <input type="text" id="cliente-nome"
+                        required> </div>
+                <div class="form-group"> <label for="cliente-telefone">Telefone (*)</label> <input type="tel"
+                        id="cliente-telefone" required maxlength="15" placeholder="(DD) 99999-9999"> </div>
+                <div class="form-group"> <label for="cliente-email">Email</label> <input type="email"
+                        id="cliente-email"> </div>
+                <div class="form-group"> <label for="cliente-documento">Documento (CPF/CNPJ)</label> <input type="text"
+                        id="cliente-documento" maxlength="18" placeholder="CPF ou CNPJ"> </div>
+                <div class="form-group"> <label for="cliente-logradouro">Logradouro</label> <input type="text"
+                        id="cliente-logradouro" placeholder="Rua, Av, etc..."> </div>
+                <div class="form-group"> <label for="cliente-cep">CEP</label> <input type="text" id="cliente-cep"
+                        maxlength="9" placeholder="00000-000"> </div>
+                <hr style="border: none; border-top: 1px solid var(--cor-borda); margin: 20px 0;">
+                <div class="form-group">
+                    <label for="cliente-limiteCredito">Limite de Crédito (R$)</label>
+                    <input type="number" id="cliente-limiteCredito" step="0.01" min="0" placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label for="cliente-ramoAtividade">Ramo de Atividade</label>
+                    <input type="text" id="cliente-ramoAtividade" placeholder="Ex: Varejo, Indústria, Serviços">
+                </div>
+                <div class="form-group">
+                    <label for="cliente-tags">Tags (separadas por vírgula)</label>
+                    <input type="text" id="cliente-tags" placeholder="Ex: VIP, Inadimplente, Regional_Sul">
+                </div>
+                <div id="cliente-modal-resultado" class="message"></div>
+                <div class="modal-actions">
+                    <button type="button" class="secondary" id="btnCancelarClienteModal">Cancelar</button>
+                    <button type="submit" class="primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="cliente-confirm-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content small">
+            <h4>Confirmar Exclusão</h4>
+            <p>Tem certeza que deseja excluir este cliente?</p>
+            <div id="cliente-confirm-resultado" class="message"></div>
+            <div class="modal-actions">
+                <button type="button" class="secondary" id="btnCancelarClienteExclusao">Cancelar</button>
+                <button type="button" class="danger" id="btnConfirmarClienteExclusao">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="pedido-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 800px;">
+            <form id="pedido-form">
+                <h3 id="pedido-modal-titulo">Novo Pedido</h3>
+                <input type="hidden" id="pedido-id">
+                <div class="form-group">
+                    <label for="pedido-cliente">Cliente (*)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <select id="pedido-cliente" required>
+                            <option value="">Selecione um cliente...</option>
+                        </select>
+                        <button type="button" class="secondary" id="btnNovoClienteRapido"
+                            style="width: auto; margin-top: 0; white-space: nowrap;"> <i class="ph ph-plus"></i> Novo
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pedido-responsavel">Responsável (*)</label>
+                    <select id="pedido-responsavel" required>
+                        <option value="">Selecione um responsável...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pedido-tipoPedido">Tipo de Pedido (*)</label>
+                    <select id="pedido-tipoPedido" required>
+                        <option value="Venda Online">Venda Online</option>
+                        <option value="Venda Física">Venda Física</option>
+                        <option value="Delivery">Delivery</option>
+                        <option value="Orçamento">Orçamento</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pedido-formaPagamento">Forma de Pagamento (*)</label>
+                    <select id="pedido-formaPagamento" required>
+                        <option value="PIX">PIX</option>
+                        <option value="Cartão de Crédito">Cartão de Crédito</option>
+                        <option value="Cartão de Débito">Cartão de Débito</option>
+                        <option value="Boleto">Boleto</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pedido-statusPagamento">Status Pagamento (*)</label>
+                    <select id="pedido-statusPagamento" required>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Aprovado">Aprovado</option>
+                        <option value="Recusado">Recusado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pedido-status">Status do Pedido (*)</label>
+                    <select id="pedido-status" required>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Em Preparo">Em Preparo</option>
+                        <option value="Concluído">Concluído</option>
+                        <option value="Cancelado">Cancelado</option>
+                    </select>
+                </div>
+                <hr style="border: none; border-top: 1px solid var(--cor-borda); margin: 20px 0;">
+                <div class="form-group">
+                    <label>Adicionar Itens ao Pedido</label>
+                    <div style="display: flex; gap: 10px; align-items: flex-end;">
+                        <div style="flex-grow: 1;">
+                            <label for="pedido-add-produto" style="font-size: 0.8rem;">Produto</label>
+                            <select id="pedido-add-produto">
+                                <option value="">Selecione um produto...</option>
+                            </select>
+                        </div>
+                        <div style="width: 100px;">
+                            <label for="pedido-add-quantidade" style="font-size: 0.8rem;">Qtd.</label>
+                            <input type="number" id="pedido-add-quantidade" value="1" min="1"
+                                style="padding: 12px; margin-top: 0;">
+                        </div>
+                        <button type="button" class="secondary" id="btnAdicionarItemPedido"
+                            style="width: auto; margin-top: 0;">Adicionar</button>
+                    </div>
+                </div>
+                <div class="table-container"
+                    style="margin-top: 15px; box-shadow: none; border: 1px solid var(--cor-borda);">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Qtd.</th>
+                                <th>Preço Unit.</th>
+                                <th>Subtotal</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pedido-itens-lista"></tbody>
+                    </table>
+                    <p id="sem-itens-pedido" class="message info"
+                        style="display: block; text-align: center; margin: 10px;">Nenhum item adicionado.</p>
+                </div>
+                <div style="text-align: right; margin-top: 15px; font-size: 0.9rem; color: #555;">
+                    Subtotal: <span id="pedido-valor-subtotal">R$ 0,00</span>
+                </div>
+                <div class_form-group"
+                    style="display: flex; gap: 10px; justify-content: flex-end; align-items: center; margin-top: 10px;">
+                    <label for="pedido-valorDesconto" style="font-weight: bold;">Desconto (R$)</label>
+                    <input type="number" id="pedido-valorDesconto" value="0" min="0" step="0.01"
+                        style="width: 120px; margin-top: 0; text-align: right;">
+                </div>
+                <div class_form-group"
+                    style="display: flex; gap: 10px; justify-content: flex-end; align-items: center; margin-top: 10px;">
+                    <label for="pedido-valorFrete" style="font-weight: bold;">Frete (R$)</label>
+                    <input type="number" id="pedido-valorFrete" value="0" min="0" step="0.01"
+                        style="width: 120px; margin-top: 0; text-align: right;">
+                </div>
+                <h4 style="text-align: right; margin-top: 15px;">Valor Total: <span id="pedido-valor-total">R$
+                        0,00</span></h4>
+                <div id="pedido-modal-resultado" class="message"></div>
+                <div class="modal-actions">
+                    <button type="button" class="secondary" id="btnCancelarPedidoModal">Cancelar</button>
+                    <button type="submit" class="primary">Salvar Pedido</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="pedido-confirm-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content small">
+            <h4>Confirmar Exclusão</h4>
+            <p>Tem certeza que deseja excluir este pedido?</p>
+            <div id="pedido-confirm-resultado" class="message"></div>
+            <div class="modal-actions">
+                <button type="button" class="secondary" id="btnCancelarPedidoExclusao">Cancelar</button>
+                <button type="button" class="danger" id="btnConfirmarPedidoExclusao">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="ambiente-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <form id="ambiente-form">
+                <h3 id="ambiente-modal-titulo">Adicionar Ambiente</h3>
+                <input type="hidden" id="ambiente-id">
+                <div class="form-group"> <label for="ambiente-cnpj">CNPJ (*)</label> <input type="text"
+                        id="ambiente-cnpj" required maxlength="18" placeholder="00.000.000/0001-00"> </div>
+                <div class="form-group"> <label for="ambiente-nomefantasia">Nome Fantasia (*)</label> <input type="text"
+                        id="ambiente-nomefantasia" required> </div>
+                <div class="form-group"> <label for="ambiente-razaosocial">Razão Social</label> <input type="text"
+                        id="ambiente-razaosocial"> </div>
+                <div id="ambiente-modal-resultado" class="message"></div>
+                <div class="modal-actions">
+                    <button type="button" class="secondary" id="btnCancelarAmbienteModal">Cancelar</button>
+                    <button type="submit" class="primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="ambiente-confirm-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content small">
+            <h4>Confirmar Exclusão</h4>
+            <p>Tem certeza que deseja excluir este ambiente? Apenas se não houver dados vinculados.</p>
+            <div id="ambiente-confirm-resultado" class="message"></div>
+            <div class="modal-actions">
+                <button type="button" class="secondary" id="btnCancelarAmbienteExclusao">Cancelar</button>
+                <button type="button" class="danger" id="btnConfirmarAmbienteExclusao">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="usuario-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <form id="usuario-form">
+                <h3 id="usuario-modal-titulo">Adicionar Usuário</h3>
+                <input type="hidden" id="usuario-id">
+                <div class="form-group">
+                    <label for="usuario-ambiente-criacao">Ambiente de Criação (*)</label>
+                    <select id="usuario-ambiente-criacao" required>
+                        <option value="">Carregando ambientes...</option>
+                    </select>
+                </div>
+                <div class="form-group"> <label for="usuario-nomeusuario">Usuário (para login) (*)</label> <input
+                        type="text" id="usuario-nomeusuario" required> </div>
+                <div class="form-group"> <label for="usuario-nomecompleto">Nome Completo</label> <input type="text"
+                        id="usuario-nomecompleto"> </div>
+                <div class="form-group">
+                    <label for="usuario-senha">Senha (*)</label>
+                    <input type="password" id="usuario-senha" placeholder="Obrigatório ao criar"
+                        autocomplete="new-password">
+                    <small id="usuario-senha-info" style="display: none; color: #555; margin-top: 5px;">Deixe em branco
+                        para manter a senha atual.</small>
+                </div>
+                <div class="form-group-checkbox"> <input type="checkbox" id="usuario-isAdmin"> <label
+                        for="usuario-isAdmin">Este usuário é Administrador?</label> </div>
+                <div class="form-group">
+                    <label for="usuario-ambientes-associados">Ambientes de Acesso</label>
+                    <select id="usuario-ambientes-associados" multiple style="min-height: 120px; background: #fdfdfd;">
+                    </select>
+                    <small style="color: #555; margin-top: 5px;">Segure Ctrl (ou Cmd) para selecionar
+                        vários.</small>
+                </div>
+                <div id="usuario-modal-resultado" class="message"></div>
+                <div class="modal-actions">
+                    <button type="button" class="secondary" id="btnCancelarUsuarioModal">Cancelar</button>
+                    <button type="submit" class="primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="usuario-confirm-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content small">
+            <h4>Confirmar Exclusão</h4>
+            <p>Tem certeza que deseja excluir este usuário?</p>
+            <div id="usuario-confirm-resultado" class="message"></div>
+            <div class="modal-actions">
+                <button type="button" class="secondary" id="btnCancelarUsuarioExclusao">Cancelar</button>
+                <button type="button" class="danger" id="btnConfirmarUsuarioExclusao">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Seletores de Navegação
+            const contentSections = document.querySelectorAll(".content-section");
+            const accordionGroups = document.querySelectorAll(".nav-group");
+            const bemVindoUsuario = document.getElementById("bem-vindo-usuario");
+
+            // Seletores de Produtos
+            const produtoModal = document.getElementById("produto-modal");
+            const confirmModal = document.getElementById("confirm-modal");
+            const btnNovoProduto = document.getElementById("btnNovoProduto");
+            const btnCancelarModal = document.getElementById("btnCancelarModal");
+            const produtoForm = document.getElementById("produto-form");
+            const tabelaCorpoProdutos = document.getElementById("produtos-tabela-corpo");
+            const semProdutosMsg = document.getElementById("sem-produtos");
+            const modalResultado = document.getElementById("modal-resultado");
+            const btnFiltrarProduto = document.getElementById("btn-filtrar-produto");
+            let produtoIdParaExcluir = null, produtoIdParaEditar = null;
+
+            // Seletores de Clientes
+            const clienteModal = document.getElementById("cliente-modal");
+            const clienteConfirmModal = document.getElementById("cliente-confirm-modal");
+            const btnNovoCliente = document.getElementById("btnNovoCliente");
+            const btnCancelarClienteModal = document.getElementById("btnCancelarClienteModal");
+            const clienteForm = document.getElementById("cliente-form");
+            const tabelaCorpoClientes = document.getElementById("clientes-tabela-corpo");
+            const semClientesMsg = document.getElementById("sem-clientes");
+            const clienteModalResultado = document.getElementById("cliente-modal-resultado");
+            const btnFiltrarCliente = document.getElementById("btn-filtrar-cliente");
+            let clienteIdParaExcluir = null, clienteIdParaEditar = null;
+
+            // Seletores de Pedidos
+            const pedidoModal = document.getElementById("pedido-modal");
+            const pedidoConfirmModal = document.getElementById("pedido-confirm-modal");
+            const btnNovoPedido = document.getElementById("btnNovoPedido");
+            const btnCancelarPedidoModal = document.getElementById("btnCancelarPedidoModal");
+            const pedidoForm = document.getElementById("pedido-form");
+            const tabelaCorpoPedidos = document.getElementById("pedidos-tabela-corpo");
+            const semPedidosMsg = document.getElementById("sem-pedidos");
+            const pedidoModalResultado = document.getElementById("pedido-modal-resultado");
+            const selectClientePedido = document.getElementById("pedido-cliente");
+            const selectProdutoPedido = document.getElementById("pedido-add-produto");
+            const selectResponsavelPedido = document.getElementById("pedido-responsavel");
+            const btnNovoClienteRapido = document.getElementById("btnNovoClienteRapido");
+            const btnAdicionarItemPedido = document.getElementById("btnAdicionarItemPedido");
+            const tabelaItensPedido = document.getElementById("pedido-itens-lista");
+            const semItensPedidoMsg = document.getElementById("sem-itens-pedido");
+            const spanValorTotalPedido = document.getElementById("pedido-valor-total");
+            const spanValorSubTotalPedido = document.getElementById("pedido-valor-subtotal");
+            const inputValorDesconto = document.getElementById("pedido-valorDesconto");
+            const inputValorFrete = document.getElementById("pedido-valorFrete");
+            const btnFiltrarPedido = document.getElementById("btn-filtrar-pedido");
+            let pedidoIdParaExcluir = null, pedidoIdParaEditar = null;
+            let itensPedidoAtual = [];
+            let cacheProdutos = [], cacheClientes = [], cacheUsuarios = [], cacheAmbientes = [];
+
+            // Seletores de Ambientes
+            const ambienteModal = document.getElementById("ambiente-modal");
+            const ambienteConfirmModal = document.getElementById("ambiente-confirm-modal");
+            const btnNovoAmbiente = document.getElementById("btnNovoAmbiente");
+            const btnCancelarAmbienteModal = document.getElementById("btnCancelarAmbienteModal");
+            const ambienteForm = document.getElementById("ambiente-form");
+            const tabelaCorpoAmbientes = document.getElementById("ambientes-tabela-corpo");
+            const semAmbientesMsg = document.getElementById("sem-ambientes");
+            const ambienteModalResultado = document.getElementById("ambiente-modal-resultado");
+            const btnFiltrarAmbiente = document.getElementById("btn-filtrar-ambiente");
+            let ambienteIdParaExcluir = null, ambienteIdParaEditar = null;
+
+            // Seletores de Usuários
+            const usuarioModal = document.getElementById("usuario-modal");
+            const usuarioConfirmModal = document.getElementById("usuario-confirm-modal");
+            const btnNovoUsuario = document.getElementById("btnNovoUsuario");
+            const btnCancelarUsuarioModal = document.getElementById("btnCancelarUsuarioModal");
+            const usuarioForm = document.getElementById("usuario-form");
+            const tabelaCorpoUsuarios = document.getElementById("usuarios-tabela-corpo");
+            const semUsuariosMsg = document.getElementById("sem-usuarios");
+            const usuarioModalResultado = document.getElementById("usuario-modal-resultado");
+            const btnFiltrarUsuario = document.getElementById("btn-filtrar-usuario");
+            const inputUsuarioSenha = document.getElementById("usuario-senha");
+            const infoUsuarioSenha = document.getElementById("usuario-senha-info");
+            let usuarioIdParaExcluir = null, usuarioIdParaEditar = null;
+
+            // Seletores de Dashboards
+            const btnFiltrarDashboards = document.getElementById("btn-filtrar-dashboards");
+            const dashboardsResultado = document.getElementById("dashboards-resultado");
+            const inputDataInicio = document.getElementById("filtro-data-inicio");
+            const inputDataFim = document.getElementById("filtro-data-fim");
+
+            // ATUALIZADO: Variáveis para guardar instâncias dos gráficos
+            let chartFaturamento = null, chartPedidosStatus = null, chartTopProdutos = null, chartNovosClientes = null;
+            // NOVOS:
+            let chartFormaPagamento = null, chartTipoPedido = null, chartFaturamentoRamo = null;
+
+            // --- Autenticação e Logout ---
+            const btnSair = document.getElementById("btnSair");
+            const btnSairMobile = document.getElementById("btnSairMobile");
+            function fazerLogout(e) {
+                e.preventDefault();
+                localStorage.removeItem('authToken');
+                window.location.href = 'index.html';
+            }
+            btnSair.addEventListener("click", fazerLogout);
+            btnSairMobile.addEventListener("click", fazerLogout);
+
+            async function fetchAutenticado(url, options = {}) {
+                const token = localStorage.getItem('authToken');
+                if (!token) {
+                    window.location.href = 'index.html';
+                    return Promise.reject(new Error("Token não encontrado."));
+                }
+                const headers = { ...options.headers, 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
+                let body = options.body;
+                if (body && typeof body !== 'string') body = JSON.stringify(body);
+                try {
+                    const res = await fetch(url, { ...options, headers, body });
+                    if (res.status === 401 || res.status === 403) {
+                        localStorage.removeItem('authToken');
+                        window.location.href = 'index.html';
+                        throw new Error('Não autorizado ou token expirado.');
+                    }
+                    const contentType = res.headers.get("content-type");
+                    let data;
+                    if (contentType && contentType.includes("application/json")) {
+                        data = await res.json();
+                    } else {
+                        data = { sucesso: res.ok, status: res.status, statusText: res.statusText };
+                    }
+                    if (!res.ok) {
+                        throw new Error(data.mensagem || `Erro ${res.status}: ${res.statusText}`);
+                    }
+                    return data;
+                } catch (err) {
+                    console.error("Erro no fetchAutenticado:", err.message);
+                    throw err;
+                }
+            }
+
+            // --- Info do Ambiente (JWT) ---
+            function parseJwt(token) {
+                try {
+                    const base64Url = token.split('.')[1];
+                    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+                        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                    }).join(''));
+                    return JSON.parse(jsonPayload);
+                } catch (e) { return null; }
+            }
+
+            function atualizarInfoAmbiente() {
+                const token = localStorage.getItem('authToken');
+                if (token) {
+                    const payload = parseJwt(token);
+                    if (payload && payload.ambienteNome) {
+                        document.getElementById("nome-ambiente-sidebar").textContent = payload.ambienteNome;
+                        bemVindoUsuario.textContent = `Bem-vindo(a), ${payload.usuario}!`;
+                    }
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }
+
+            // --- Navegação e Menu Sanfona (Accordion) ---
+            function setupNavigation() {
+                const links = document.querySelectorAll('.nav-link, .nav-link-sub');
+                links.forEach(link => {
+                    const href = link.getAttribute("href");
+                    if (href && href.startsWith("#")) {
+                        link.addEventListener("click", (e) => {
+                            e.preventDefault();
+                            window.location.hash = href;
+                        });
+                    }
+                });
+                accordionGroups.forEach(group => {
+                    const header = group.querySelector('.nav-group-header');
+                    header.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        accordionGroups.forEach(g => {
+                            if (g !== group) g.classList.remove('open');
+                        });
+                        group.classList.toggle('open');
+                    });
+                });
+                window.addEventListener('hashchange', () => mostrarSecao(window.location.hash));
+                mostrarSecao(window.location.hash);
+            }
+
+            function mostrarSecao(hash) {
+                const id = hash.substring(1) || "dashboard";
+                contentSections.forEach(section => section.classList.remove("active"));
+                const secaoAtiva = document.getElementById(`${id}-content`);
+                if (secaoAtiva) secaoAtiva.classList.add("active");
+
+                document.querySelectorAll('.nav-link, .nav-link-sub').forEach(link => {
+                    link.classList.remove("active");
+                    link.classList.remove("active-sub");
+                });
+
+                const linkAtivo = document.querySelector(`.nav-link[href="#${id}"], .nav-link-sub[href="#${id}"]`);
+                if (linkAtivo) {
+                    linkAtivo.classList.add("active");
+                    if (linkAtivo.classList.contains('nav-link-sub')) {
+                        linkAtivo.classList.add('active-sub');
+                        const parentGroup = linkAtivo.closest('.nav-group');
+                        if (parentGroup) parentGroup.classList.add('open');
+                    }
+                    const mobileLink = document.querySelector(`#nav-mobile .nav-link[href="#${id}"]`);
+                    if (mobileLink) mobileLink.classList.add('active');
+                }
+
+                if (id === "dashboard") fetchDashboardData();
+                else if (id === "dashboards") fetchNovosDashboards();
+                else if (id === "produtos") fetchProdutos();
+                else if (id === "clientes") fetchClientes();
+                else if (id === "pedidos") fetchPedidos();
+                else if (id === "ambientes") fetchAmbientes();
+                else if (id === "usuarios") fetchUsuarios();
+            }
+
+            // --- Carregamento Inicial ---
+            atualizarInfoAmbiente();
+            setupNavigation();
+            const hoje = new Date().toISOString().split('T')[0];
+            const seteDiasAtras = new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            inputDataInicio.value = seteDiasAtras;
+            inputDataFim.value = hoje;
+
+
+            // --- Funções do DASHBOARD (Visão Geral - KPIs) ---
+            async function fetchDashboardData() {
+                try {
+                    const data = await fetchAutenticado('http://localhost:3000/dashboard');
+                    const formatarReais = (valor) => (valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                    document.getElementById('kpi-faturamento-hoje').textContent = formatarReais(data.FaturamentoHoje);
+                    document.getElementById('kpi-pedidos-hoje').textContent = data.PedidosHoje || 0;
+                    document.getElementById('kpi-ticket-medio-hoje').textContent = formatarReais(data.TicketMedioHoje);
+                    document.getElementById('kpi-novos-clientes-hoje').textContent = data.NovosClientesHoje || 0;
+                    document.getElementById('kpi-total-clientes').textContent = data.TotalClientes || 0;
+                    document.getElementById('kpi-total-produtos').textContent = data.TotalProdutos || 0;
+                } catch (err) {
+                    bemVindoUsuario.textContent = "Erro ao carregar KPIs: " + err.message;
+                }
+            }
+
+            // --- Funções dos DASHBOARDS (Gráficos) ---
+            btnFiltrarDashboards.addEventListener("click", fetchNovosDashboards);
+
+            // ATUALIZADO: fetchNovosDashboards
+            async function fetchNovosDashboards() {
+                const dataInicio = inputDataInicio.value;
+                const dataFim = inputDataFim.value;
+                if (!dataInicio || !dataFim) {
+                    dashboardsResultado.textContent = "Por favor, selecione data de início e fim.";
+                    dashboardsResultado.className = "message error";
+                    dashboardsResultado.style.display = 'block';
+                    return;
+                }
+                dashboardsResultado.textContent = "Carregando gráficos...";
+                dashboardsResultado.className = "message info";
+                dashboardsResultado.style.display = 'block';
+
+                try {
+                    const url = new URL("http://localhost:3000/dashboard/graficos");
+                    url.searchParams.append('dataInicio', dataInicio);
+                    url.searchParams.append('dataFim', dataFim);
+                    const data = await fetchAutenticado(url);
+
+                    // Renderiza todos os gráficos (antigos e novos)
+                    renderFaturamentoChart(data.faturamentoPorDia);
+                    renderPedidosStatusChart(data.pedidosPorStatus);
+                    renderTopProdutosChart(data.topProdutos);
+                    renderNovosClientesChart(data.novosClientes);
+
+                    // NOVOS GRÁFICOS
+                    renderFormaPagamentoChart(data.faturamentoPorPagamento);
+                    renderTipoPedidoChart(data.faturamentoPorTipoPedido);
+                    renderFaturamentoRamoChart(data.faturamentoPorRamo);
+
+                    dashboardsResultado.style.display = 'none';
+
+                } catch (err) {
+                    dashboardsResultado.textContent = "Erro ao carregar gráficos: " + err.message;
+                    dashboardsResultado.className = "message error";
+                }
+            }
+
+            // --- Funções de Renderização de Gráficos ---
+
+            const chartColors = {
+                primary: 'rgba(234, 98, 0, 0.7)',
+                primary_border: 'rgba(234, 98, 0, 1)',
+                success: 'rgba(46, 204, 113, 0.7)',
+                success_border: 'rgba(46, 204, 113, 1)',
+                warning: 'rgba(245, 166, 35, 0.7)',
+                danger: 'rgba(231, 76, 60, 0.7)',
+                info: 'rgba(52, 152, 219, 0.7)',
+                info_border: 'rgba(52, 152, 219, 1)',
+                secondary: 'rgba(149, 165, 166, 0.7)',
+                secondary_border: 'rgba(127, 140, 141, 1)'
+            };
+
+            // ATUALIZADO: renderFaturamentoChart (Gráfico Empilhado)
+            function renderFaturamentoChart(data) {
+                const ctx = document.getElementById('chart-faturamento').getContext('2d');
+                const labels = data.map(d => new Date(d.Dia).toLocaleDateString('pt-BR', { timeZone: 'UTC', day: '2-digit', month: '2-digit' }));
+                const subtotal = data.map(d => d.SubTotal);
+                const desconto = data.map(d => d.Desconto * -1); // Deixa desconto negativo
+                const frete = data.map(d => d.Frete);
+
+                if (chartFaturamento) chartFaturamento.destroy();
+                chartFaturamento = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'SubTotal (R$)',
+                                data: subtotal,
+                                backgroundColor: chartColors.success,
+                            },
+                            {
+                                label: 'Desconto (R$)',
+                                data: desconto,
+                                backgroundColor: chartColors.danger,
+                            },
+                            {
+                                label: 'Frete (R$)',
+                                data: frete,
+                                backgroundColor: chartColors.info,
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true, stacked: true }, // Empilhado
+                            x: { stacked: true, ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 15 } }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    footer: (tooltipItems) => {
+                                        // Calcula o Total (Faturamento Líquido)
+                                        let total = 0;
+                                        tooltipItems.forEach(item => {
+                                            total += item.parsed.y;
+                                        });
+                                        return 'Total (Líquido): R$ ' + total.toFixed(2);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function renderPedidosStatusChart(data) {
+                const ctx = document.getElementById('chart-pedidos-status').getContext('2d');
+                const labels = data.map(d => d.status);
+                const valores = data.map(d => d.Quantidade);
+                if (chartPedidosStatus) chartPedidosStatus.destroy();
+                chartPedidosStatus = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Pedidos por Status',
+                            data: valores,
+                            backgroundColor: [
+                                chartColors.warning, chartColors.primary,
+                                chartColors.success, chartColors.danger
+                            ]
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+
+            function renderTopProdutosChart(data) {
+                const ctx = document.getElementById('chart-top-produtos').getContext('2d');
+                const labels = data.map(d => d.Produto);
+                const valores = data.map(d => d.QuantidadeVendida);
+                if (chartTopProdutos) chartTopProdutos.destroy();
+                chartTopProdutos = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Quantidade Vendida',
+                            data: valores,
+                            backgroundColor: chartColors.info,
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: { x: { beginAtZero: true } }
+                    }
+                });
+            }
+
+            function renderNovosClientesChart(data) {
+                const ctx = document.getElementById('chart-novos-clientes').getContext('2d');
+                const labels = data.map(d => new Date(d.Dia).toLocaleDateString('pt-BR', { timeZone: 'UTC', day: '2-digit', month: '2-digit' }));
+                const valores = data.map(d => d.NovosClientes);
+                if (chartNovosClientes) chartNovosClientes.destroy();
+                chartNovosClientes = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Novos Clientes',
+                            data: valores,
+                            backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                            borderColor: chartColors.info_border,
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true },
+                            x: { ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 15 } }
+                        }
+                    }
+                });
+            }
+
+            // --- NOVAS FUNÇÕES DE RENDERIZAÇÃO ---
+
+            function renderFormaPagamentoChart(data) {
+                const ctx = document.getElementById('chart-forma-pagamento').getContext('2d');
+                const labels = data.map(d => d.FormaPagamento);
+                const valores = data.map(d => d.Quantidade);
+                if (chartFormaPagamento) chartFormaPagamento.destroy();
+                chartFormaPagamento = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Quantidade',
+                            data: valores,
+                            backgroundColor: [chartColors.info, chartColors.success, chartColors.warning, chartColors.secondary, chartColors.primary]
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+
+            function renderTipoPedidoChart(data) {
+                const ctx = document.getElementById('chart-tipo-pedido').getContext('2d');
+                const labels = data.map(d => d.TipoPedido);
+                const valores = data.map(d => d.Quantidade);
+                if (chartTipoPedido) chartTipoPedido.destroy();
+                chartTipoPedido = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Quantidade',
+                            data: valores,
+                            backgroundColor: [chartColors.primary, chartColors.info, chartColors.warning]
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+
+            function renderFaturamentoRamoChart(data) {
+                const ctx = document.getElementById('chart-faturamento-ramo').getContext('2d');
+                const labels = data.map(d => d.RamoAtividade);
+                const valores = data.map(d => d.Faturamento);
+                if (chartFaturamentoRamo) chartFaturamentoRamo.destroy();
+                chartFaturamentoRamo = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Faturamento (R$)',
+                            data: valores,
+                            backgroundColor: [chartColors.success, chartColors.primary, chartColors.info, chartColors.secondary]
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+
+
+            // --- Funções de Modal (abrir/fechar) ---
+            function abrirModalProduto(modo = 'add', produto = null) {
+                produtoForm.reset(); modalResultado.textContent = ""; produtoIdParaEditar = null;
+                if (modo === 'edit' && produto) {
+                    document.getElementById("modal-titulo").textContent = "Editar Produto";
+                    document.getElementById("produto-id").value = produto.id;
+                    document.getElementById("produto-nome").value = produto.nome;
+                    document.getElementById("produto-descricao").value = produto.descricao || '';
+                    document.getElementById("produto-preco").value = produto.preco;
+                    produtoIdParaEditar = produto.id;
+                } else { document.getElementById("modal-titulo").textContent = "Adicionar Produto"; }
+                produtoModal.style.display = "flex";
+            }
+            function fecharModalProduto() { produtoModal.style.display = "none"; }
+            function abrirConfirmModalProduto(id) {
+                produtoIdParaExcluir = id; document.getElementById('confirm-resultado').textContent = '';
+                confirmModal.style.display = 'flex';
+            }
+            function fecharConfirmModalProduto() { confirmModal.style.display = 'none'; produtoIdParaExcluir = null; }
+
+            function abrirModalCliente(modo = 'add', cliente = null) {
+                clienteForm.reset(); clienteModalResultado.textContent = ""; clienteIdParaEditar = null;
+                if (modo === 'edit' && cliente) {
+                    document.getElementById("cliente-modal-titulo").textContent = "Editar Cliente";
+                    document.getElementById("cliente-id").value = cliente.id;
+                    document.getElementById("cliente-nome").value = cliente.nome;
+                    document.getElementById("cliente-telefone").value = formatarTelefone(cliente.telefone);
+                    document.getElementById("cliente-email").value = cliente.email || '';
+                    document.getElementById("cliente-documento").value = cliente.documento ? formatarDocumento(cliente.documento) : '';
+                    document.getElementById("cliente-logradouro").value = cliente.logradouro || '';
+                    document.getElementById("cliente-cep").value = cliente.cep ? formatarCEP(cliente.cep) : '';
+                    document.getElementById("cliente-limiteCredito").value = cliente.limiteCredito || '';
+                    document.getElementById("cliente-ramoAtividade").value = cliente.ramoAtividade || '';
+                    document.getElementById("cliente-tags").value = cliente.tags || '';
+                    clienteIdParaEditar = cliente.id;
+                } else {
+                    document.getElementById("cliente-modal-titulo").textContent = "Adicionar Cliente";
+                    document.getElementById("cliente-documento").value = '';
+                    document.getElementById("cliente-logradouro").value = '';
+                    document.getElementById("cliente-cep").value = '';
+                    document.getElementById("cliente-limiteCredito").value = '';
+                    document.getElementById("cliente-ramoAtividade").value = '';
+                    document.getElementById("cliente-tags").value = '';
+                }
+                clienteModal.style.display = "flex";
+            }
+            function fecharModalCliente() { clienteModal.style.display = "none"; }
+            function abrirConfirmModalCliente(id) {
+                clienteIdParaExcluir = id; document.getElementById('cliente-confirm-resultado').textContent = '';
+                clienteConfirmModal.style.display = 'flex';
+            }
+            function fecharConfirmModalCliente() { clienteConfirmModal.style.display = 'none'; clienteIdParaExcluir = null; }
+
+            async function abrirModalPedido(modo = 'add', pedido = null) {
+                pedidoForm.reset(); pedidoModalResultado.textContent = "";
+                pedidoIdParaEditar = null; itensPedidoAtual = [];
+                inputValorDesconto.value = 0; inputValorFrete.value = 0;
+                renderizarItensPedido();
+
+                await Promise.all([
+                    atualizarSelectClientes(),
+                    atualizarSelectProdutos(),
+                    atualizarSelectUsuarios()
+                ]);
+
+                if (modo === 'edit' && pedido) {
+                    document.getElementById("pedido-modal-titulo").textContent = "Editar Pedido";
+                    pedidoIdParaEditar = pedido.id;
+                    try {
+                        const pedidoCompleto = await fetchAutenticado(`http://localhost:3000/pedidos/${pedido.id}`);
+                        document.getElementById("pedido-cliente").value = pedidoCompleto.clienteId;
+                        document.getElementById("pedido-responsavel").value = pedidoCompleto.usuarioId;
+                        document.getElementById("pedido-status").value = pedidoCompleto.status;
+                        document.getElementById("pedido-tipoPedido").value = pedidoCompleto.tipoPedido || 'Venda Online';
+                        document.getElementById("pedido-formaPagamento").value = pedidoCompleto.formaPagamento || 'PIX';
+                        document.getElementById("pedido-statusPagamento").value = pedidoCompleto.statusPagamento || 'Pendente';
+                        inputValorDesconto.value = pedidoCompleto.valorDesconto || 0;
+                        inputValorFrete.value = pedidoCompleto.valorFrete || 0;
+                        itensPedidoAtual = pedidoCompleto.itens.map(item => ({
+                            produtoId: item.produtoId, nome: item.nomeProduto,
+                            quantidade: item.quantidade, precoUnitario: item.precoUnitario
+                        }));
+                        renderizarItensPedido();
+                    } catch (err) {
+                        pedidoModalResultado.textContent = err.message;
+                        pedidoModalResultado.className = "message error"; return;
+                    }
+                } else {
+                    document.getElementById("pedido-modal-titulo").textContent = "Adicionar Pedido";
+                    document.getElementById("pedido-status").value = "Pendente";
+                    document.getElementById("pedido-tipoPedido").value = "Venda Online";
+                    document.getElementById("pedido-formaPagamento").value = "PIX";
+                    document.getElementById("pedido-statusPagamento").value = "Pendente";
+                    const token = parseJwt(localStorage.getItem('authToken'));
+                    document.getElementById("pedido-responsavel").value = token.id;
+                }
+                pedidoModal.style.display = "flex";
+            }
+            function fecharModalPedido() { pedidoModal.style.display = "none"; }
+            function abrirConfirmModalPedido(id) {
+                pedidoIdParaExcluir = id; document.getElementById('pedido-confirm-resultado').textContent = '';
+                pedidoConfirmModal.style.display = 'flex';
+            }
+            function fecharConfirmModalPedido() { pedidoConfirmModal.style.display = 'none'; pedidoIdParaExcluir = null; }
+
+            function abrirModalAmbiente(modo = 'add', ambiente = null) {
+                ambienteForm.reset(); ambienteModalResultado.textContent = ""; ambienteIdParaEditar = null;
+                if (modo === 'edit' && ambiente) {
+                    document.getElementById("ambiente-modal-titulo").textContent = "Editar Ambiente";
+                    document.getElementById("ambiente-id").value = ambiente.id;
+                    document.getElementById("ambiente-cnpj").value = formatarCNPJ(ambiente.cnpj);
+                    document.getElementById("ambiente-nomefantasia").value = ambiente.nomeFantasia;
+                    document.getElementById("ambiente-razaosocial").value = ambiente.razaoSocial || '';
+                    ambienteIdParaEditar = ambiente.id;
+                } else { document.getElementById("ambiente-modal-titulo").textContent = "Adicionar Ambiente"; }
+                ambienteModal.style.display = "flex";
+            }
+            function fecharModalAmbiente() { ambienteModal.style.display = "none"; }
+            function abrirConfirmModalAmbiente(id) {
+                ambienteIdParaExcluir = id; document.getElementById('ambiente-confirm-resultado').textContent = '';
+                ambienteConfirmModal.style.display = 'flex';
+            }
+            function fecharConfirmModalAmbiente() { ambienteConfirmModal.style.display = 'none'; ambienteIdParaExcluir = null; }
+
+            async function abrirModalUsuario(modo = 'add', usuario = null) {
+                usuarioForm.reset(); usuarioModalResultado.textContent = ""; usuarioIdParaEditar = null;
+                inputUsuarioSenha.required = true; infoUsuarioSenha.style.display = 'none';
+                await atualizarSelectAmbientes('usuario-ambiente-criacao', 'usuario-ambientes-associados');
+                if (modo === 'edit' && usuario) {
+                    document.getElementById("usuario-modal-titulo").textContent = "Editar Usuário";
+                    document.getElementById("usuario-id").value = usuario.id;
+                    document.getElementById("usuario-nomeusuario").value = usuario.nomeUsuario;
+                    document.getElementById("usuario-nomecompleto").value = usuario.nomeCompleto || '';
+                    document.getElementById("usuario-isAdmin").checked = usuario.isAdmin;
+                    inputUsuarioSenha.required = false; infoUsuarioSenha.style.display = 'block';
+                    usuarioIdParaEditar = usuario.id;
+                    document.getElementById("usuario-ambiente-criacao").value = usuario.idAmbienteCriacao;
+                    try {
+                        const idsAmbientesAssociados = await fetchAutenticado(`http://localhost:3000/usuarios/${usuario.id}/ambientes`);
+                        const selectAssociados = document.getElementById("usuario-ambientes-associados");
+                        [...selectAssociados.options].forEach(option => {
+                            if (idsAmbientesAssociados.includes(parseInt(option.value, 10))) {
+                                option.selected = true;
+                            }
+                        });
+                    } catch (err) {
+                        usuarioModalResultado.textContent = "Erro ao buscar ambientes associados: " + err.message;
+                        usuarioModalResultado.className = "message error";
+                    }
+                } else {
+                    document.getElementById("usuario-modal-titulo").textContent = "Adicionar Usuário";
+                }
+                usuarioModal.style.display = "flex";
+            }
+            function fecharModalUsuario() { usuarioModal.style.display = "none"; }
+            function abrirConfirmModalUsuario(id) {
+                usuarioIdParaExcluir = id; document.getElementById('usuario-confirm-resultado').textContent = '';
+                usuarioConfirmModal.style.display = 'flex';
+            }
+            function fecharConfirmModalUsuario() { usuarioConfirmModal.style.display = 'none'; usuarioIdParaExcluir = null; }
+
+            // --- Event Listeners dos Modais ---
+            btnNovoProduto.addEventListener("click", () => abrirModalProduto('add'));
+            btnCancelarModal.addEventListener("click", fecharModalProduto);
+            document.getElementById("btnCancelarExclusao").addEventListener("click", fecharConfirmModalProduto);
+            btnNovoCliente.addEventListener("click", () => abrirModalCliente('add'));
+            btnCancelarClienteModal.addEventListener("click", fecharModalCliente);
+            document.getElementById("btnCancelarClienteExclusao").addEventListener("click", fecharConfirmModalCliente);
+            btnNovoPedido.addEventListener("click", () => abrirModalPedido('add'));
+            btnCancelarPedidoModal.addEventListener("click", fecharModalPedido);
+            document.getElementById("btnCancelarPedidoExclusao").addEventListener("click", fecharConfirmModalPedido);
+            btnNovoClienteRapido.addEventListener("click", () => abrirModalCliente('add'));
+            btnNovoAmbiente.addEventListener("click", () => abrirModalAmbiente('add'));
+            btnCancelarAmbienteModal.addEventListener("click", fecharModalAmbiente);
+            document.getElementById("btnCancelarAmbienteExclusao").addEventListener("click", fecharConfirmModalAmbiente);
+            btnNovoUsuario.addEventListener("click", () => abrirModalUsuario('add'));
+            btnCancelarUsuarioModal.addEventListener("click", fecharModalUsuario);
+            document.getElementById("btnCancelarUsuarioExclusao").addEventListener("click", fecharConfirmModalUsuario);
+            window.addEventListener("click", (e) => {
+                const target = e.target;
+                if (target === produtoModal) fecharModalProduto();
+                if (target === confirmModal) fecharConfirmModalProduto();
+                if (target === clienteModal) fecharModalCliente();
+                if (target === clienteConfirmModal) fecharConfirmModalCliente();
+                if (target === pedidoModal) fecharModalPedido();
+                if (target === pedidoConfirmModal) fecharConfirmModalPedido();
+                if (target === ambienteModal) fecharModalAmbiente();
+                if (target === ambienteConfirmModal) fecharConfirmModalAmbiente();
+                if (target === usuarioModal) fecharModalUsuario();
+                if (target === usuarioConfirmModal) fecharConfirmModalUsuario();
+            });
+
+
+            // --- Funções CRUD PRODUTOS (API) ---
+            async function fetchProdutos() {
+                tabelaCorpoProdutos.innerHTML = ""; semProdutosMsg.style.display = "none";
+                const nome = document.getElementById("filtro-produto-nome").value;
+                const url = new URL("http://localhost:3000/produtos");
+                if (nome) url.searchParams.append('nome', nome);
+                try {
+                    const produtos = await fetchAutenticado(url);
+                    cacheProdutos = produtos;
+                    if (produtos.length === 0) { semProdutosMsg.style.display = "block"; return; }
+                    produtos.forEach(produto => {
+                        const tr = document.createElement("tr");
+                        tr.innerHTML = `
+                            <td>${produto.id}</td> <td>${produto.nome}</td>
+                            <td>${produto.descricao || 'N/A'}</td> <td>R$ ${Number(produto.preco).toFixed(2)}</td>
+                            <td class="acoes"> <button class="btn-acao edit"><i class="ph ph-pencil-simple"></i></button> <button class="btn-acao delete"><i class="ph ph-trash"></i></button> </td>`;
+                        tr.querySelector(".edit").addEventListener("click", () => abrirModalProduto('edit', produto));
+                        tr.querySelector(".delete").addEventListener("click", () => abrirConfirmModalProduto(produto.id));
+                        tabelaCorpoProdutos.appendChild(tr);
+                    });
+                } catch (err) { semProdutosMsg.textContent = "Falha: " + err.message; semProdutosMsg.style.display = "block"; }
+            }
+            btnFiltrarProduto.addEventListener("click", fetchProdutos);
+            produtoForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const produto = {
+                    nome: document.getElementById("produto-nome").value,
+                    descricao: document.getElementById("produto-descricao").value,
+                    preco: parseFloat(document.getElementById("produto-preco").value)
+                };
+                let url = "http://localhost:3000/produtos", method = "POST";
+                if (produtoIdParaEditar) { url = `http://localhost:3000/produtos/${produtoIdParaEditar}`; method = "PUT"; }
+                try {
+                    const data = await fetchAutenticado(url, { method, body: produto });
+                    modalResultado.textContent = data.mensagem; modalResultado.className = "message success";
+                    fetchProdutos(); setTimeout(fecharModalProduto, 1000);
+                } catch (err) { modalResultado.textContent = err.message; modalResultado.className = "message error"; }
+            });
+            document.getElementById("btnConfirmarExclusao").addEventListener("click", async () => {
+                if (!produtoIdParaExcluir) return;
+                const r = document.getElementById('confirm-resultado');
+                try {
+                    const data = await fetchAutenticado(`http://localhost:3000/produtos/${produtoIdParaExcluir}`, { method: "DELETE" });
+                    r.textContent = data.mensagem; r.className = 'message success';
+                    fetchProdutos(); setTimeout(fecharConfirmModalProduto, 1000);
+                } catch (err) { r.textContent = err.message; r.className = 'message error'; }
+            });
+
+            // --- Funções CRUD CLIENTES (API) ---
+            async function fetchClientes() {
+                tabelaCorpoClientes.innerHTML = ""; semClientesMsg.style.display = "none";
+                const filtro = document.getElementById("filtro-cliente-geral").value;
+                const url = new URL("http://localhost:3000/clientes");
+                if (filtro) url.searchParams.append('filtro', filtro);
+                try {
+                    const clientes = await fetchAutenticado(url);
+                    cacheClientes = clientes;
+                    if (clientes.length === 0) { semClientesMsg.style.display = "block"; return; }
+                    clientes.forEach(cliente => {
+                        const tr = document.createElement("tr");
+                        tr.innerHTML = `
+                            <td>${cliente.id}</td> 
+                            <td>${cliente.nome}</td>
+                            <td>${formatarTelefone(cliente.telefone)}</td> 
+                            <td>${cliente.email || 'N/A'}</td>
+                            <td>${cliente.documento ? formatarDocumento(cliente.documento) : 'N/A'}</td>
+                            <td class="acoes"> <button class="btn-acao edit"><i class="ph ph-pencil-simple"></i></button> <button class="btn-acao delete"><i class="ph ph-trash"></i></button> </td>`;
+                        tr.querySelector(".edit").addEventListener("click", () => abrirModalCliente('edit', cliente));
+                        tr.querySelector(".delete").addEventListener("click", () => abrirConfirmModalCliente(cliente.id));
+                        tabelaCorpoClientes.appendChild(tr);
+                    });
+                } catch (err) { semClientesMsg.textContent = "Falha: " + err.message; semClientesMsg.style.display = "block"; }
+            }
+            btnFiltrarCliente.addEventListener("click", fetchClientes);
+            clienteForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const cliente = {
+                    nome: document.getElementById("cliente-nome").value,
+                    telefone: document.getElementById("cliente-telefone").value.replace(/\D/g, ''),
+                    email: document.getElementById("cliente-email").value,
+                    documento: document.getElementById("cliente-documento").value.replace(/\D/g, ''),
+                    logradouro: document.getElementById("cliente-logradouro").value || null,
+                    cep: document.getElementById("cliente-cep").value.replace(/\D/g, ''),
+                    limiteCredito: document.getElementById("cliente-limiteCredito").value || null,
+                    ramoAtividade: document.getElementById("cliente-ramoAtividade").value || null,
+                    tags: document.getElementById("cliente-tags").value || null
+                };
+                if (cliente.limiteCredito === null || cliente.limiteCredito === '') {
+                    delete cliente.limiteCredito;
+                } else {
+                    cliente.limiteCredito = parseFloat(cliente.limiteCredito);
+                }
+                let url = "http://localhost:3000/clientes", method = "POST";
+                if (clienteIdParaEditar) { url = `http://localhost:3000/clientes/${clienteIdParaEditar}`; method = "PUT"; }
+                try {
+                    const data = await fetchAutenticado(url, { method, body: cliente });
+                    clienteModalResultado.textContent = data.mensagem; clienteModalResultado.className = "message success";
+                    fetchClientes();
+                    if (pedidoModal.style.display === 'flex') { await atualizarSelectClientes(data.novoId || clienteIdParaEditar); }
+                    setTimeout(fecharModalCliente, 1000);
+                } catch (err) { clienteModalResultado.textContent = err.message; clienteModalResultado.className = "message error"; }
+            });
+            document.getElementById("btnConfirmarClienteExclusao").addEventListener("click", async () => {
+                if (!clienteIdParaExcluir) return;
+                const r = document.getElementById('cliente-confirm-resultado');
+                try {
+                    const data = await fetchAutenticado(`http://localhost:3000/clientes/${clienteIdParaExcluir}`, { method: "DELETE" });
+                    r.textContent = data.mensagem; r.className = 'message success';
+                    fetchClientes(); setTimeout(fecharConfirmModalCliente, 1000);
+                } catch (err) { r.textContent = err.message; r.className = 'message error'; }
+            });
+
+            // --- Funções CRUD PEDIDOS (API) ---
+            async function fetchPedidos() {
+                tabelaCorpoPedidos.innerHTML = ""; semPedidosMsg.style.display = "none";
+                const clienteNome = document.getElementById("filtro-pedido-cliente").value;
+                const status = document.getElementById("filtro-pedido-status").value;
+                const url = new URL("http://localhost:3000/pedidos");
+                if (clienteNome) url.searchParams.append('clienteNome', clienteNome);
+                if (status) url.searchParams.append('status', status);
+                try {
+                    const pedidos = await fetchAutenticado(url);
+                    if (pedidos.length === 0) { semPedidosMsg.style.display = "block"; return; }
+                    pedidos.forEach(pedido => {
+                        const tr = document.createElement("tr");
+                        tr.innerHTML = `
+                            <td>${pedido.id}</td>
+                            <td>${pedido.nomeCliente || 'N/A'}</td>
+                            <td>${pedido.nomeResponsavel || 'N/A'}</td>
+                            <td>${new Date(pedido.dataPedido).toLocaleString('pt-BR')}</td>
+                            <td>R$ ${Number(pedido.valorTotal).toFixed(2)}</td>
+                            <td><span class="status-badge" data-status="${pedido.status}">${pedido.status}</span></td>
+                            <td>${pedido.tipoPedido || 'N/A'}</td>
+                            <td><span class="status-badge" data-status="${pedido.statusPagamento || 'Pendente'}">${pedido.statusPagamento || 'Pendente'}</span></td>
+                            <td class="acoes"> <button class="btn-acao edit"><i class="ph ph-pencil-simple"></i></button> <button class="btn-acao delete"><i class="ph ph-trash"></i></button> </td>`;
+                        tr.querySelector(".edit").addEventListener("click", () => abrirModalPedido('edit', pedido));
+                        tr.querySelector(".delete").addEventListener("click", () => abrirConfirmModalPedido(pedido.id));
+                        tabelaCorpoPedidos.appendChild(tr);
+                    });
+                } catch (err) { semPedidosMsg.textContent = "Falha: " + err.message; semPedidosMsg.style.display = "block"; }
+            }
+            btnFiltrarPedido.addEventListener("click", fetchPedidos);
+            pedidoForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const pedido = {
+                    clienteId: document.getElementById("pedido-cliente").value,
+                    status: document.getElementById("pedido-status").value,
+                    responsavelId: document.getElementById("pedido-responsavel").value,
+                    itens: itensPedidoAtual,
+                    valorDesconto: parseFloat(inputValorDesconto.value) || 0,
+                    valorFrete: parseFloat(inputValorFrete.value) || 0,
+                    formaPagamento: document.getElementById("pedido-formaPagamento").value,
+                    statusPagamento: document.getElementById("pedido-statusPagamento").value,
+                    tipoPedido: document.getElementById("pedido-tipoPedido").value
+                };
+                if (!pedido.clienteId || !pedido.responsavelId) {
+                    pedidoModalResultado.textContent = "Cliente e Responsável são obrigatórios.";
+                    pedidoModalResultado.className = "message error"; return;
+                }
+                if (pedido.itens.length === 0) {
+                    pedidoModalResultado.textContent = "Adicione pelo menos um item.";
+                    pedidoModalResultado.className = "message error"; return;
+                }
+                let url = "http://localhost:3000/pedidos", method = "POST";
+                if (pedidoIdParaEditar) { url = `http://localhost:3000/pedidos/${pedidoIdParaEditar}`; method = "PUT"; }
+                try {
+                    const data = await fetchAutenticado(url, { method, body: pedido });
+                    pedidoModalResultado.textContent = data.mensagem; pedidoModalResultado.className = "message success";
+                    fetchPedidos();
+                    if (window.location.hash === '#dashboard') fetchDashboardData();
+                    setTimeout(fecharModalPedido, 1000);
+                } catch (err) { pedidoModalResultado.textContent = err.message; pedidoModalResultado.className = "message error"; }
+            });
+            document.getElementById("btnConfirmarPedidoExclusao").addEventListener("click", async () => {
+                if (!pedidoIdParaExcluir) return;
+                const r = document.getElementById('pedido-confirm-resultado');
+                try {
+                    const data = await fetchAutenticado(`http://localhost:3000/pedidos/${pedidoIdParaExcluir}`, { method: "DELETE" });
+                    r.textContent = data.mensagem; r.className = 'message success';
+                    fetchPedidos();
+                    if (window.location.hash === '#dashboard') fetchDashboardData();
+                    setTimeout(fecharConfirmModalPedido, 1000);
+                } catch (err) { r.textContent = err.message; r.className = 'message error'; }
+            });
+
+            // --- Funções CRUD AMBIENTES (API) ---
+            async function fetchAmbientes() {
+                tabelaCorpoAmbientes.innerHTML = ""; semAmbientesMsg.style.display = "none";
+                const filtro = document.getElementById("filtro-ambiente-geral").value;
+                const url = new URL("http://localhost:3000/ambientes");
+                if (filtro) url.searchParams.append('filtro', filtro);
+                try {
+                    const ambientes = await fetchAutenticado(url);
+                    cacheAmbientes = ambientes;
+                    if (ambientes.length === 0) { semAmbientesMsg.style.display = "block"; return; }
+                    ambientes.forEach(ambiente => {
+                        const tr = document.createElement("tr");
+                        tr.innerHTML = `
+                            <td>${ambiente.id}</td> <td>${formatarCNPJ(ambiente.cnpj)}</td>
+                            <td>${ambiente.nomeFantasia}</td> <td>${ambiente.razaoSocial || 'N/A'}</td>
+                            <td class="acoes"> <button class="btn-acao edit"><i class="ph ph-pencil-simple"></i></button> <button class="btn-acao delete"><i class="ph ph-trash"></i></button> </td>`;
+                        tr.querySelector(".edit").addEventListener("click", () => abrirModalAmbiente('edit', ambiente));
+                        tr.querySelector(".delete").addEventListener("click", () => abrirConfirmModalAmbiente(ambiente.id));
+                        tabelaCorpoAmbientes.appendChild(tr);
+                    });
+                } catch (err) { semAmbientesMsg.textContent = "Falha: " + err.message; semAmbientesMsg.style.display = "block"; }
+            }
+            btnFiltrarAmbiente.addEventListener("click", fetchAmbientes);
+            ambienteForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const ambiente = {
+                    cnpj: document.getElementById("ambiente-cnpj").value.replace(/\D/g, ''),
+                    nomeFantasia: document.getElementById("ambiente-nomefantasia").value,
+                    razaoSocial: document.getElementById("ambiente-razaosocial").value
+                };
+                let url = "http://localhost:3000/ambientes", method = "POST";
+                if (ambienteIdParaEditar) { url = `http://localhost:3000/ambientes/${ambienteIdParaEditar}`; method = "PUT"; }
+                try {
+                    const data = await fetchAutenticado(url, { method, body: ambiente });
+                    ambienteModalResultado.textContent = data.mensagem; ambienteModalResultado.className = "message success";
+                    fetchAmbientes(); setTimeout(fecharModalAmbiente, 1000);
+                } catch (err) { ambienteModalResultado.textContent = err.message; ambienteModalResultado.className = "message error"; }
+            });
+            document.getElementById("btnConfirmarAmbienteExclusao").addEventListener("click", async () => {
+                if (!ambienteIdParaExcluir) return;
+                const r = document.getElementById('ambiente-confirm-resultado');
+                try {
+                    const data = await fetchAutenticado(`http://localhost:3000/ambientes/${ambienteIdParaExcluir}`, { method: "DELETE" });
+                    r.textContent = data.mensagem; r.className = data.sucesso ? 'message success' : 'message error';
+                    fetchAmbientes();
+                    if (data.sucesso) { setTimeout(fecharConfirmModalAmbiente, 1500); }
+                } catch (err) { r.textContent = err.message; r.className = 'message error'; }
+            });
+
+            // --- Funções CRUD USUÁRIOS (API) ---
+            async function fetchUsuarios() {
+                tabelaCorpoUsuarios.innerHTML = ""; semUsuariosMsg.style.display = "none";
+                const filtro = document.getElementById("filtro-usuario-geral").value;
+                const url = new URL("http://localhost:3000/usuarios");
+                if (filtro) url.searchParams.append('filtro', filtro);
+                try {
+                    const usuarios = await fetchAutenticado(url);
+                    cacheUsuarios = usuarios;
+                    if (usuarios.length === 0) { semUsuariosMsg.style.display = "block"; return; }
+                    usuarios.forEach(usuario => {
+                        const tr = document.createElement("tr");
+                        tr.innerHTML = `
+                            <td>${usuario.id}</td> <td>${usuario.nomeUsuario}</td>
+                           <td>${usuario.nomeCompleto || 'N/A'}</td>
+                           <td>${usuario.nomeAmbienteCriacao || 'N/A'}</td>
+                           <td>${usuario.isAdmin ? 'Sim' : 'Não'}</td>
+                            <td class="acoes"> <button class="btn-acao edit"><i class="ph ph-pencil-simple"></i></button> <button class="btn-acao delete"><i class="ph ph-trash"></i></button> </td>`;
+                        tr.querySelector(".edit").addEventListener("click", () => abrirModalUsuario('edit', usuario));
+                        tr.querySelector(".delete").addEventListener("click", () => abrirConfirmModalUsuario(usuario.id));
+                        tabelaCorpoUsuarios.appendChild(tr);
+                    });
+                } catch (err) { semUsuariosMsg.textContent = "Falha: " + err.message; semUsuariosMsg.style.display = "block"; }
+            }
+            btnFiltrarUsuario.addEventListener("click", fetchUsuarios);
+            usuarioForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const senha = document.getElementById("usuario-senha").value;
+                const idAmbienteCriacao = document.getElementById("usuario-ambiente-criacao").value;
+                const selectAmbientesAssociados = document.getElementById("usuario-ambientes-associados");
+                const ambientesAssociados = [...selectAmbientesAssociados.options]
+                    .filter(option => option.selected)
+                    .map(option => option.value);
+                const usuario = {
+                    nomeUsuario: document.getElementById("usuario-nomeusuario").value,
+                    nomeCompleto: document.getElementById("usuario-nomecompleto").value,
+                    isAdmin: document.getElementById("usuario-isAdmin").checked,
+                    senha: (senha && senha.length > 0) ? senha : null,
+                    idAmbienteCriacao: idAmbienteCriacao ? parseInt(idAmbienteCriacao, 10) : null,
+                    ambientesAssociados: ambientesAssociados.map(id => parseInt(id, 10))
+                };
+                let url = "http://localhost:3000/usuarios", method = "POST";
+                if (usuarioIdParaEditar) { url = `http://localhost:3000/usuarios/${usuarioIdParaEditar}`; method = "PUT"; }
+                else {
+                    if (!usuario.senha) {
+                        usuarioModalResultado.textContent = "Senha é obrigatória ao criar usuário.";
+                        usuarioModalResultado.className = "message error"; return;
+                    }
+                }
+                if (!usuario.idAmbienteCriacao) {
+                    usuarioModalResultado.textContent = "Ambiente de Criação é obrigatório.";
+                    usuarioModalResultado.className = "message error"; return;
+                }
+                try {
+                    const data = await fetchAutenticado(url, { method, body: usuario });
+                    usuarioModalResultado.textContent = data.mensagem; usuarioModalResultado.className = "message success";
+                    fetchUsuarios(); setTimeout(fecharModalUsuario, 1000);
+                } catch (err) { usuarioModalResultado.textContent = err.message; usuarioModalResultado.className = "message error"; }
+            });
+            document.getElementById("btnConfirmarUsuarioExclusao").addEventListener("click", async () => {
+                if (!usuarioIdParaExcluir) return;
+                const r = document.getElementById('usuario-confirm-resultado');
+                try {
+                    const data = await fetchAutenticado(`http://localhost:3000/usuarios/${usuarioIdParaExcluir}`, { method: "DELETE" });
+                    r.textContent = data.mensagem; r.className = data.sucesso ? 'message success' : 'message error';
+                    fetchUsuarios();
+                    if (data.sucesso) { setTimeout(fecharConfirmModalUsuario, 1500); }
+                } catch (err) { r.textContent = err.message; r.className = 'message error'; }
+            });
+
+            // --- Funções Auxiliares (Selects e Máscaras) ---
+            async function atualizarSelectClientes(selecionarId = null) {
+                try {
+                    document.getElementById("filtro-cliente-geral").value = "";
+                    await fetchClientes();
+                    selectClientePedido.innerHTML = '<option value="">Selecione um cliente...</option>';
+                    cacheClientes.forEach(cliente => {
+                        const option = document.createElement("option");
+                        option.value = cliente.id;
+                        option.textContent = `${cliente.nome} (${formatarTelefone(cliente.telefone)})`;
+                        selectClientePedido.appendChild(option);
+                    });
+                    if (selecionarId) selectClientePedido.value = selecionarId;
+                } catch (err) { console.error("Erro ao atualizar select de clientes:", err.message); }
+            }
+            async function atualizarSelectProdutos() {
+                try {
+                    document.getElementById("filtro-produto-nome").value = "";
+                    if (cacheProdutos.length === 0) await fetchProdutos();
+                    selectProdutoPedido.innerHTML = '<option value="">Selecione um produto...</option>';
+                    cacheProdutos.forEach(prod => {
+                        const option = document.createElement("option");
+                        option.value = prod.id;
+                        option.textContent = `${prod.nome} (R$ ${Number(prod.preco).toFixed(2)})`;
+                        selectProdutoPedido.appendChild(option);
+                    });
+                } catch (err) { console.error("Erro ao atualizar select de produtos:", err.message); }
+            }
+            async function atualizarSelectUsuarios() {
+                try {
+                    document.getElementById("filtro-usuario-geral").value = "";
+                    if (cacheUsuarios.length === 0) await fetchUsuarios();
+                    selectResponsavelPedido.innerHTML = '<option value="">Selecione um responsável...</option>';
+                    cacheUsuarios.forEach(user => {
+                        const option = document.createElement("option");
+                        option.value = user.id;
+                        option.textContent = `${user.nomeCompleto || user.nomeUsuario} ${user.isAdmin ? '(Admin)' : ''}`;
+                        selectResponsavelPedido.appendChild(option);
+                    });
+                } catch (err) { console.error("Erro ao atualizar select de usuários:", err.message); }
+            }
+            async function atualizarSelectAmbientes(selectCriacaoId, selectAssociadosId) {
+                const selectCriacao = document.getElementById(selectCriacaoId);
+                const selectAssociados = document.getElementById(selectAssociadosId);
+                selectCriacao.innerHTML = '<option value="">Carregando...</option>';
+                selectAssociados.innerHTML = '';
+                try {
+                    document.getElementById("filtro-ambiente-geral").value = "";
+                    if (cacheAmbientes.length === 0) await fetchAmbientes();
+                    selectCriacao.innerHTML = '<option value="">Selecione o amb. de criação</option>';
+                    cacheAmbientes.forEach(amb => {
+                        const optionCriacao = document.createElement("option");
+                        optionCriacao.value = amb.id;
+                        optionCriacao.textContent = `${amb.nomeFantasia} (${formatarCNPJ(amb.cnpj)})`;
+                        selectCriacao.appendChild(optionCriacao);
+                        const optionAssoc = document.createElement("option");
+                        optionAssoc.value = amb.id;
+                        optionAssoc.textContent = `${amb.nomeFantasia}`;
+                        selectAssociados.appendChild(optionAssoc);
+                    });
+                } catch (err) {
+                    console.error("Erro ao atualizar selects de ambiente:", err.message);
+                    selectCriacao.innerHTML = '<option value="">Erro ao carregar</option>';
+                }
+            }
+
+            // --- Lógica de Itens do Pedido ---
+            btnAdicionarItemPedido.addEventListener("click", () => {
+                const produtoId = selectProdutoPedido.value;
+                const quantidade = parseInt(document.getElementById("pedido-add-quantidade").value, 10);
+                if (!produtoId || quantidade <= 0) {
+                    pedidoModalResultado.textContent = "Selecione um produto e uma quantidade válida.";
+                    pedidoModalResultado.className = "message error"; return;
+                }
+                pedidoModalResultado.textContent = "";
+                const produto = cacheProdutos.find(p => p.id == produtoId);
+                if (!produto) return;
+                const itemExistente = itensPedidoAtual.find(item => item.produtoId == produtoId);
+                if (itemExistente) { itemExistente.quantidade += quantidade; }
+                else {
+                    itensPedidoAtual.push({
+                        produtoId: produto.id, nome: produto.nome,
+                        quantidade: quantidade, precoUnitario: Number(produto.preco)
+                    });
+                }
+                selectProdutoPedido.value = ""; document.getElementById("pedido-add-quantidade").value = 1;
+                renderizarItensPedido();
+            });
+            inputValorDesconto.addEventListener('input', calcularValorTotalPedido);
+            inputValorFrete.addEventListener('input', calcularValorTotalPedido);
+            function renderizarItensPedido() {
+                tabelaItensPedido.innerHTML = "";
+                if (itensPedidoAtual.length === 0) {
+                    semItensPedidoMsg.style.display = "block";
+                    calcularValorTotalPedido();
+                    return;
+                }
+                semItensPedidoMsg.style.display = "none";
+                itensPedidoAtual.forEach((item, index) => {
+                    const precoUnit = Number(item.precoUnitario);
+                    const subtotal = item.quantidade * precoUnit;
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${item.nome}</td> <td>${item.quantidade}</td>
+                        <td>R$ ${precoUnit.toFixed(2)}</td> <td>R$ ${subtotal.toFixed(2)}</td>
+                        <td class="acoes"> <button type="button" class="btn-acao delete" data-index="${index}"><i class="ph ph-trash"></i></button> </td>`;
+                    tr.querySelector(".delete").addEventListener("click", (e) => { e.preventDefault(); removerItemPedido(index); });
+                    tabelaItensPedido.appendChild(tr);
+                });
+                calcularValorTotalPedido();
+            }
+            function removerItemPedido(index) {
+                itensPedidoAtual.splice(index, 1); renderizarItensPedido();
+            }
+            function calcularValorTotalPedido() {
+                const subtotal = itensPedidoAtual.reduce((total, item) => {
+                    return total + (item.quantidade * Number(item.precoUnitario));
+                }, 0);
+                const desconto = parseFloat(inputValorDesconto.value) || 0;
+                const frete = parseFloat(inputValorFrete.value) || 0;
+                const total = (subtotal - desconto) + frete;
+                spanValorSubTotalPedido.textContent = `R$ ${subtotal.toFixed(2)}`;
+                spanValorTotalPedido.textContent = `R$ ${total.toFixed(2)}`;
+                return subtotal;
+            }
+
+            // --- Funções de Máscara ---
+            function formatarTelefone(v) {
+                if (!v) return ""; v = v.replace(/\D/g, "");
+                v = v.replace(/^(\d{2})(\d)/g, "($1) $2");
+                v = v.replace(/(\d{5})(\d)/, "$1-$2"); return v.substring(0, 15);
+            }
+            function formatarDocumento(v) {
+                if (!v) return ""; v = v.replace(/\D/g, "");
+                if (v.length <= 11) {
+                    v = v.replace(/(\d{3})(\d)/, "$1.$2"); v = v.replace(/(\d{3})(\d)/, "$1.$2");
+                    v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2"); return v.substring(0, 14);
+                } else {
+                    v = v.replace(/^(\d{2})(\d)/, '$1.$2'); v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+                    v = v.replace(/\.(\d{3})(\d)/, '.$1/$2'); v = v.replace(/(\d{4})(\d)/, '$1-$2');
+                    return v.substring(0, 18);
+                }
+            }
+            function formatarCEP(v) {
+                if (!v) return ""; v = v.replace(/\D/g, "");
+                v = v.replace(/^(\d{5})(\d)/, "$1-$2"); return v.substring(0, 9);
+            }
+            function formatarCNPJ(v) {
+                if (!v) return ""; v = v.replace(/\D/g, '');
+                v = v.replace(/^(\d{2})(\d)/, '$1.$2'); v = v.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+                v = v.replace(/\.(\d{3})(\d)/, '.$1/$2'); v = v.replace(/(\d{4})(\d)/, '$1-$2');
+                return v.substring(0, 18);
+            }
+            document.getElementById("cliente-telefone").addEventListener('input', (e) => { e.target.value = formatarTelefone(e.target.value); });
+            document.getElementById("cliente-documento").addEventListener('input', (e) => { e.target.value = formatarDocumento(e.target.value); });
+            document.getElementById("cliente-cep").addEventListener('input', (e) => { e.target.value = formatarCEP(e.target.value); });
+            document.getElementById("ambiente-cnpj").addEventListener('input', (e) => { e.target.value = formatarCNPJ(e.target.value); });
+        });
+    </script>
+</body>
+
+</html>
